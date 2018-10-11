@@ -1,0 +1,73 @@
+/*Move facets to the left*/
+prm-search > md-content.md-primoExplore-theme.main {
+    display: -webkit-flex; 
+    -webkit-flex-flow: row-reverse wrap; 
+    display: flex;
+    flex-flow: row-reverse wrap;
+}
+
+prm-topbar {
+    height: 70px;
+    position: relative;
+}
+
+.screen-gt-sm .sidebar {
+    webkit-flex: 0 0 15%;
+    flex: 0 0 15%;
+}
+
+/* Hide language bar */
+prm-change-lang {
+  display: none;
+}
+
+/* Top bar */
+prm-search-bar.prm-hue1, prm-spinner.prm-hue1.overlay-cover.light-on-dark:after, prm-topbar .top-nav-bar
+	{background-color: #004D71;}
+
+.prm-primary-bg.prm-hue1 
+	{background-color: #FFF;}
+
+/* Search bar */
+.prm-primary-bg, prm-search-bar, prm-spinner.overlay-cover.light-on-dark:after {
+    background-color: #669933;
+}
+	
+/* Top bar - user area - hover color */
+  md-fab-toolbar md-toolbar {
+      background-color: #004D71 !important;
+      pointer-events: none;
+      z-index: 23;
+}
+  
+/* Call the clickable logo */
+prm-logo div.product-logo {
+    display:none;
+}
+
+prm-logo div.product-logo-local {
+display: flex;
+min-width:300px;
+background-color:#004D71;
+}
+
+/* Increase call number visibility in summary and detailed results */
+span.best-location-delivery.locations-link {
+    font-size: 120%;
+    font-weight: bold;
+    color: #004D71;
+}
+
+/* Chat reference link */ 
+div.chat { 
+    text-decoration: none; 
+    padding: .5em;    
+    display: inline-block; 
+    border-radius: 8px !important;
+    border: 2px solid #ffffff !important;
+    margin: 0 0 0 .5em; 
+}
+
+div.chat a { 
+    text-decoration: none; color: white !important; 
+}
