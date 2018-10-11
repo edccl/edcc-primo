@@ -6,7 +6,7 @@ prm-search > md-content.md-primoExplore-theme.main {
     flex-flow: row-reverse wrap;
 }
 
-prm-topbar {
+prm-topbar { 
     height: 70px;
     position: relative;
 }
