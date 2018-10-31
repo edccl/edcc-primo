@@ -1,11 +1,3 @@
-/*Move facets to the left*/
-prm-search > md-content.md-primoExplore-theme.main {
-    display: -webkit-flex; 
-    -webkit-flex-flow: row-reverse wrap; 
-    display: flex;
-    flex-flow: row-reverse wrap;
-}
-
 prm-topbar { 
     height: 70px;
     position: relative;

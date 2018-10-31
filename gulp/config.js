@@ -155,8 +155,10 @@ var SERVERS = {
  * Examples:
  *   var PROXY_SERVER = 'http://abc-primo.hosted.exlibrisgroup.com'
  *   var PROXY_SERVER = 'https://abc-primo.hosted.exlibrisgroup.com:443'
+ * 
+ *   var PROXY_SERVER = 'https://edmonds-primo.hosted.exlibrisgroup.com:443'; - EDCC Prod
  */
-var PROXY_SERVER = 'https://edmonds-primo.hosted.exlibrisgroup.com:443';
+var PROXY_SERVER = 'https://sbctc-edcc.primo.exlibrisgroup.com:443';
 
 
 let buildParams = {
