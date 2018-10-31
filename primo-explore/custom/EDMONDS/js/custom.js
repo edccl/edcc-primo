@@ -4,47 +4,120 @@
 
 /* BEGIN Bootstrap Script */
 
-var app = angular.module('viewCustom', ['angularLoad']);
+var app = angular.module('viewCustom', ['angularLoad', 'externalSearch']);
 
 /* END Bootstrap Script */
 
 // Add Google Scholar and Worldcat search in facet pane 
-app.component('prmFacetExactAfter', {
-    bindings: { parentCtrl: '<' },
-    controller: function controller($scope) {
-        console.log($scope.$parent.$ctrl.facetGroup.name);
-        if ($scope.$parent.$ctrl.facetGroup.name == "tlevel") {
-            this.class = "WC_show";
-        } else {
-            this.class = "WC_hide";
-        }
-        try {
-            this.query = this.parentCtrl.facetService.$location.$$search.query.split(",")[2];
-        } catch (e) {
-            this.query = "";
-        }
-    },
-    template: '<div class="{{$ctrl.class}}"><div aria-label="Search in Worldcat" class="section-title md-button md-primoExplore-theme md-ink-ripple layout-fill" style="" ><div class="layout-align-start-center layout-row"><h3 class="section-title-header"><span title="External Search" translate="External Search"></span></h3></div><div class="md-ripple-container"></div></div><div aria-hidden="false" class="section-content animate-max-height-variable" style=""><div class="md-chips md-chips-wrap"><div aria-live="polite" class="md-chip animate-opacity-and-scale facet-element-marker-local4"><div class="md-chip-content layout-row" role="button" tabindex="0"><strong dir="auto" title="Search Worldcat" ><a href="https://www.worldcat.org/search?qt=worldcat_org_all&q={{$ctrl.query}}" target="_blank"><img src="custom/EDMONDS/img/worldcat.png" width="22" height="22" alt="worldcat-logo" style="vertical-align:middle;"> Search Worldcat</a></strong></div></div><div aria-live="polite" class="md-chip animate-opacity-and-scale facet-element-marker-local4"><div class="md-chip-content layout-row" role="button" tabindex="0"><strong dir="auto" title="Search Google Scholar" ><a href="https://scholar.google.com/scholar?q={{$ctrl.query}}" target="_blank"> <img src="custom/EDMONDS/img/gscholar.png" width="22" height="22" alt="google-scholar-logo" style="vertical-align:middle;"> Google Scholar</a></strong></div></div></div></div>'
-});
 
+angular.module('externalSearch', []).value('searchTargets', []).component('prmFacetAfter', {
+  bindings: { parentCtrl: '<' },
+  controller: ['externalSearchService', function (externalSearchService) {
+    externalSearchService.controller = this.parentCtrl;
+    externalSearchService.addExtSearch();
+  }]
+}).component('prmPageNavMenuAfter', {
+  controller: ['externalSearchService', function (externalSearchService) {
+    if (externalSearchService.controller) externalSearchService.addExtSearch();
+  }]
+}).component('prmFacetExactAfter', {
+  bindings: { parentCtrl: '<' },
+  template: '\n      <div ng-if="name === \'External Search\'">\n          <div ng-hide="$ctrl.parentCtrl.facetGroup.facetGroupCollapsed">\n              <div class="section-content animate-max-height-variable">\n                  <div class="md-chips md-chips-wrap">\n                      <div ng-repeat="target in targets" aria-live="polite" class="md-chip animate-opacity-and-scale facet-element-marker-local4">\n                          <div class="md-chip-content layout-row" role="button" tabindex="0">\n                              <strong dir="auto" title="{{ target.name }}">\n                                  <a ng-href="{{ target.url + target.mapping(queries, filters) }}" target="_blank">\n                                      <img ng-src="{{ target.img }}" width="22" height="22" alt="{{ target.alt }}" style="vertical-align:middle;"> {{ target.name }}\n                                  </a>\n                              </strong>\n                          </div>\n                      </div>\n                  </div>\n              </div>\n          </div>\n      </div>',
+  controller: ['$scope', '$location', 'searchTargets', function ($scope, $location, searchTargets) {
+    $scope.name = this.parentCtrl.facetGroup.name;
+    $scope.targets = searchTargets;
+    var query = $location.search().query;
+    var filter = $location.search().pfilter;
+    $scope.queries = Array.isArray(query) ? query : query ? [query] : false;
+    $scope.filters = Array.isArray(filter) ? filter : filter ? [filter] : false;
+  }]
+}).factory('externalSearchService', function () {
+  return {
+    get controller() {
+      return this.prmFacetCtrl || false;
+    },
+    set controller(controller) {
+      this.prmFacetCtrl = controller;
+    },
+    addExtSearch: function addExtSearch() {
+      var xx = this;
+      var checkExist = setInterval(function () {
+
+        if (xx.prmFacetCtrl.facetService.results[0] && xx.prmFacetCtrl.facetService.results[0].name != "External Search") {
+          if (xx.prmFacetCtrl.facetService.results.name !== 'External Search') {
+            xx.prmFacetCtrl.facetService.results.unshift({
+              name: 'External Search',
+              displayedType: 'exact',
+              limitCount: 0,
+              facetGroupCollapsed: false,
+              values: undefined
+            });
+          }
+          clearInterval(checkExist);
+        }
+      }, 100);
+    }
+  };
+});
+app.value('searchTargets', [{
+  "name": "Worldcat",
+  "url": "https://www.worldcat.org/search?",
+  "img": "custom/EDMONDS/img/worldcat.png",
+  "alt": "Worldcat Logo",
+  mapping: function mapping(queries, filters) {
+    var query_mappings = {
+      'any': 'kw',
+      'title': 'ti',
+      'creator': 'au',
+      'subject': 'su',
+      'isbn': 'bn',
+      'issn': 'n2'
+    };
+    try {
+      return 'q=' + queries.map(function (part) {
+        var terms = part.split(',');
+        var type = query_mappings[terms[0]] || 'kw';
+        var string = terms[2] || '';
+        var join = terms[3] || '';
+        return type + ':' + string + ' ' + join + ' ';
+      }).join('');
+    } catch (e) {
+      return '';
+    }
+  }
+}, {
+  "name": "Google Scholar",
+  "url": "https://scholar.google.com/scholar?q=",
+  "img": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Google_%22G%22_Logo.svg/200px-Google_%22G%22_Logo.svg.png",
+  "alt": "Google Scholar Logo",
+  mapping: function mapping(queries, filters) {
+    try {
+      return queries.map(function (part) {
+        return part.split(",")[2] || "";
+      }).join(' ');
+    } catch (e) {
+      return '';
+    }
+  }
+}]);
 // Add Clickable Logo
 app.controller('prmLogoAfterController', [function () {
-    var vm = this;
-    vm.getIconLink = getIconLink;
-    function getIconLink() {
-        return vm.parentCtrl.iconLink;
-    }
+  var vm = this;
+  vm.getIconLink = getIconLink;
+  function getIconLink() {
+    return vm.parentCtrl.iconLink;
+  }
 }]);
 
 app.component('prmLogoAfter', {
-    bindings: { parentCtrl: '<' },
-    controller: 'prmLogoAfterController',
-    template: '<div class="product-logo product-logo-local" layout="row" layout-align="start center" layout-fill id="banner" tabindex="0" role="banner">' + '<a href="http://www.edcc.edu/library/">' + '<img class="logo-image" alt="{{::(&apos;nui.header.LogoAlt&apos; | translate)}}" ng-src="{{$ctrl.getIconLink()}}"/></a></div>'
+  bindings: { parentCtrl: '<' },
+  controller: 'prmLogoAfterController',
+  template: '<div class="product-logo product-logo-local" layout="row" layout-align="start center" layout-fill id="banner" tabindex="0" role="banner">' + '<a href="http://www.edcc.edu/library/">' + '<img class="logo-image" alt="{{::(&apos;nui.header.LogoAlt&apos; | translate)}}" ng-src="{{$ctrl.getIconLink()}}"/></a></div>'
 });
 // Add chat widget to header 
 app.component('prmSearchBookmarkFilterAfter', {
-    bindings: {},
-    template: '<div class="chat"><a ng-href="https://www.questionpoint.org/crs/servlet/org.oclc.admin.BuildForm?&page=frame&institution=13164&type=2&language=1" target="_blank" aria-label="Chat Help">Chat Help</a></div>'
+  bindings: {},
+  template: '<div class="chat"><a ng-href="https://www.questionpoint.org/crs/servlet/org.oclc.admin.BuildForm?&page=frame&institution=13164&type=2&language=1" target="_blank" aria-label="Chat Help">Chat Help</a></div>'
 });
 
 /* Add Report Problem Banner to Full Display
@@ -66,13 +139,13 @@ app.constant('reportProblemOptions', {
   */
 // Show search scopes by default on basic searches
 app.component('prmSearchBarAfter', {
-    bindings: { parentCtrl: '<' },
-    controller: 'SearchBarAfterController'
+  bindings: { parentCtrl: '<' },
+  controller: 'SearchBarAfterController'
 });
 
 app.controller('SearchBarAfterController', ['angularLoad', function (angularLoad) {
-    var vm = this;
-    vm.parentCtrl.showTabsAndScopes = true;
+  var vm = this;
+  vm.parentCtrl.showTabsAndScopes = true;
 }]);
 
 /* Analytics
