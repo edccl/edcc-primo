@@ -18,11 +18,24 @@ prm-search-bar.prm-hue1, prm-spinner.prm-hue1.overlay-cover.light-on-dark:after,
 	{background-color: #004D71;}
 
 .prm-primary-bg.prm-hue1 
-	{background-color: #FFF;}
+    {background-color: #FFF;}
+    
+prm-main-menu[menu-type=menu] .md-button { 
+    font-size: 100%;
+    text-transform: none;
+}
+
+button.user-button span, button.button-with-menu-arrow span {
+    font-size: 14pt !important; 
+} 
 
 /* Search bar */
 .prm-primary-bg, prm-search-bar, prm-spinner.overlay-cover.light-on-dark:after {
     background-color: #669933;
+}
+
+button.switch-to-advanced, button.switch-to-simple {
+    font-size: 140%;
 }
 	
 /* Top bar - user area - hover color */

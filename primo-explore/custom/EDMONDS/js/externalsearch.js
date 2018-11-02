@@ -90,3 +90,4 @@ angular.module('externalSearch', []).value('searchTargets', []).component('prmFa
       }
     }
   }]);
+  
