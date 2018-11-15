@@ -62,7 +62,7 @@ angular.module('externalSearch', []).value('searchTargets', []).component('prmFa
 app.value('searchTargets', [{
   "name": "Worldcat",
   "url": "https://www.worldcat.org/search?",
-  "img": "custom/EDMONDS/img/worldcat.png",
+  "img": "https://www.oclc.org/content/dam/oclc/logos/worldcat/worldcat-logo.png",
   "alt": "Worldcat Logo",
   mapping: function mapping(queries, filters) {
     var query_mappings = {
@@ -126,7 +126,7 @@ app.component('prmSearchBookmarkFilterAfter', {
 app.constant('reportProblemOptions', {
     message: "Having trouble accessing a resource?",
     button: "Report a Problem",
-    base: "https://library.oregonstate.edu/submit-problem?"
+    base: "https://docs.google.com/forms/d/e/1FAIpQLSfCFBhaHkh6kbWfP0nWXgZyjE3C4gCQ0iAZSlAz5xA9CyHjsA/viewform?usp=sf_link"
   });
   angular.module('reportProblem', []).component('prmActionListAfter', {
     template: '\n    <div ng-if="show" class="bar filter-bar layout-align-center-center layout-row margin-top-medium" layout="row" layout-align="center center">\n        <span class="margin-right-small">{{ message }}</span>\n        <a ng-href="{{ link }}" target="_blank">\n            <button class="button-with-icon zero-margin md-button md-button-raised md-primoExplore-theme md-ink-ripple" type="button" aria-label="Report a Problem" style="color: #5c92bd;">\n                <prm-icon icon-type="svg" svg-icon-set="primo-ui" icon-definition="open-in-new"></prm-icon>\n                <span style="text-transform: none; font-size: 16px;">{{ button }}</span>\n                <div class="md-ripple-container"></div>\n            </button>\n        </a>\n    </div>\n    ',
@@ -311,14 +311,14 @@ app.controller('SearchBarAfterController', ['angularLoad', function (angularLoad
     }]);
   }e.$inject = ["$provide"], angular.module("ngtweet").config(e);
 }();
-/* Analytics
-(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+// Analytics
+(function (i, s, o, g, r, a, m) {
+  i['GoogleAnalyticsObject'] = r;i[r] = i[r] || function () {
+    (i[r].q = i[r].q || []).push(arguments);
+  }, i[r].l = 1 * new Date();a = s.createElement(o), m = s.getElementsByTagName(o)[0];a.async = 1;a.src = g;m.parentNode.insertBefore(a, m);
+})(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
 
-  ga('create', 'NEED NEW CODE');
-  ga('send', 'pageview');
-  ga('set', 'anonymizeIp', true);
-  */
+ga('create', 'UA-129269717-1');
+ga('send', 'pageview');
+ga('set', 'anonymizeIp', true);
 })();

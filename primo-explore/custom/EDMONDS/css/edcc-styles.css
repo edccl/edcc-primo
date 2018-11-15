@@ -56,6 +56,9 @@ min-width:300px;
 background-color:#004D71;
 }
 
+/* Set up a media query so that min-width is reset to a smaller value - it's hiding the main menu icons
+/* Also fix md cards 
+
 /* Increase call number visibility in summary and detailed results */
 span.best-location-delivery.locations-link {
     font-size: 120%;

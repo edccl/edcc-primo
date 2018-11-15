@@ -52,7 +52,7 @@ angular.module('externalSearch', []).value('searchTargets', []).component('prmFa
   app.value('searchTargets', [{
     "name": "Worldcat",
     "url": "https://www.worldcat.org/search?", 
-    "img": "custom/EDMONDS/img/worldcat.png",
+    "img": "https://www.oclc.org/content/dam/oclc/logos/worldcat/worldcat-logo.png",
     "alt": "Worldcat Logo",
     mapping: function mapping(queries, filters) {
       var query_mappings = {
