@@ -99,6 +99,36 @@ app.value('searchTargets', [{
       return '';
     }
   }
+}, {
+  "name": "Sno-Isle Libraries",
+  "url": "https://sno-isle.bibliocommons.com/v2/search?query=",
+  "img": "https://sno-isle.bibliocommons.com/images/WA-SNOISLE/favicon.ico",
+  "alt": "Sno-Isle Libraries Logo",
+  mapping: function mapping(queries, filters) {
+    try {
+      return queries.map(function (part) {
+        var string = '&searchType=smart';
+        return part.split(",")[2] + string || "";
+      }).join('');
+    } catch (e) {
+      return '';
+    }
+  }
+}, {
+  "name": "King County Libraries",
+  "url": "https://kcls.bibliocommons.com/v2/search?query=",
+  "img": "https://kcls.bibliocommons.com/images/WA-KCLS/favicon.ico",
+  "alt": "King County Library System",
+  mapping: function mapping(queries, filters) {
+    try {
+      return queries.map(function (part) {
+        var string = '&searchType=smart';
+        return part.split(",")[2] + string || "";
+      }).join('');
+    } catch (e) {
+      return '';
+    }
+  }
 }]);
 
 app.component('prmAdvancedSearchAfter', {
