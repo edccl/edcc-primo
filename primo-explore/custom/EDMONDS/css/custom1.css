@@ -45,16 +45,7 @@ button.switch-to-advanced, button.switch-to-simple {
       z-index: 23;
 }
   
-/* Call the clickable logo */
-prm-logo div.product-logo {
-    display:none;
-}
-
-prm-logo div.product-logo-local {
-display: flex;
-min-width:300px;
-background-color:#004D71;
-}
+/* Also fix md cards 
 
 /* Increase call number visibility in summary and detailed results */
 span.best-location-delivery.locations-link {
@@ -75,4 +66,14 @@ div.chat {
 
 div.chat a { 
     text-decoration: none; color: white !important; 
+}
+
+/* Adds small space between facet name and facet count */
+span[ng-if="::facet.count>0 && $ctrl.isShowCount(facet)"] { 
+    margin-left: 3pt;
+}
+
+/* Hides search history icon (redundant with new user sign-in area */
+a[href="/discovery/favorites?vid=01STATEWA_EDCC%3AEDMONDS&lang=en&section=search_history"] {
+    display: none;
 }
