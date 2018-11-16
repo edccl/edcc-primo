@@ -101,6 +101,14 @@ app.value('searchTargets', [{
   }
 }]);
 
+app.component('prmAdvancedSearchAfter', {
+  bindings: { parentCtrl: '<' },
+  controller: function controller($scope) {
+    var vm = this;
+
+    delete vm.parentCtrl.language;
+  }
+});
 // Add chat widget to header 
 app.component('prmSearchBookmarkFilterAfter', {
   bindings: {},

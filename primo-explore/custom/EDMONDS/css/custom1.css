@@ -68,12 +68,18 @@ div.chat a {
     text-decoration: none; color: white !important; 
 }
 
-/* Adds small space between facet name and facet count */
+/* Add small space between facet name and facet count */
 span[ng-if="::facet.count>0 && $ctrl.isShowCount(facet)"] { 
     margin-left: 3pt;
 }
 
-/* Hides search history icon (redundant with new user sign-in area */
+/* Hide search history icon (redundant with new user sign-in area */
 a[href="/discovery/favorites?vid=01STATEWA_EDCC%3AEDMONDS&lang=en&section=search_history"] {
     display: none;
+}
+
+/* Hide language and password options in My Account */ 
+
+md-card-content.layout-align-space-around-center.layout-column {
+    visibility: hidden;
 }
