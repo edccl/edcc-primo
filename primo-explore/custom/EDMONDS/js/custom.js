@@ -4,7 +4,7 @@
 
 /* BEGIN Bootstrap Script */
 
-var app = angular.module('viewCustom', ['angularLoad', 'externalSearch', 'ngtweet']);
+var app = angular.module('viewCustom', ['angularLoad', 'ngtweet']);
 
 /* END Bootstrap Script */
 
